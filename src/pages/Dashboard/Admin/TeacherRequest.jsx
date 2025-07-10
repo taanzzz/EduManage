@@ -5,6 +5,20 @@ import axiosSecure from '../../../api/Axios';
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
 
 
+const StatusBadge = ({ status }) => {
+    const statusClasses = {
+        pending: 'badge-warning',
+        approved: 'badge-success',
+        rejected: 'badge-error',
+    };
+    return (
+        <span className={`badge ${statusClasses[status] || 'badge-ghost'} text-white font-semibold`}>
+            {status}
+        </span>
+    );
+};
+
+
 const TeacherRequest = () => {
     const queryClient = useQueryClient();
 
@@ -50,7 +64,7 @@ const TeacherRequest = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {requests.map(req => (
+                        {requests.length > 0 ? requests.map(req => (
                             <tr key={req._id}>
                                 <td>
                                     <div className="flex items-center gap-3">
@@ -58,15 +72,20 @@ const TeacherRequest = () => {
                                         <div><div className="font-bold">{req.name}</div><div className="text-sm opacity-50">{req.email}</div></div>
                                     </div>
                                 </td>
-                                <td>{req.experience}</td>
-                                <td>{req.category}<br/><span className="badge badge-ghost badge-sm">{req.title}</span></td>
-                                <td>{req.status}</td>
+                                <td className="font-medium">{req.experience}</td>
+                                <td>{req.category}<br/><span className="badge badge-ghost badge-sm mt-1">{req.title}</span></td>
+                                
+                                
+                                <td><StatusBadge status={req.status} /></td>
+
                                 <td className="text-center space-x-2">
                                     <button onClick={() => handleRequest(req._id, 'approved')} disabled={req.status !== 'pending'} className="btn btn-sm btn-success text-white">Approve</button>
                                     <button onClick={() => handleRequest(req._id, 'rejected')} disabled={req.status !== 'pending'} className="btn btn-sm btn-error text-white">Reject</button>
                                 </td>
                             </tr>
-                        ))}
+                        )) : (
+                           <tr><td colSpan="5" className="text-center py-10 text-base-content/70">No pending teacher requests at the moment.</td></tr>
+                        )}
                     </tbody>
                 </table>
             </div>

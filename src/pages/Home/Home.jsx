@@ -1,9 +1,10 @@
 import React from 'react'
+import Partners from '../../components/Home/Partners'
 
 const Home = () => {
   return (
     <div>
-      Home
+      <Partners></Partners>
     </div>
   )
 }
