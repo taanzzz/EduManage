@@ -7,10 +7,9 @@ import { toast } from 'react-toastify';
 import { AuthContext } from '../../../contexts/AuthProvider';
 import axiosSecure from '../../../api/Axios';
 
-
 const FeedbackModal = ({ isOpen, onClose, classDetails }) => {
     const { user } = useContext(AuthContext);
-    const { register, handleSubmit, control, formState: { errors }, reset } = useForm();
+    const { register, handleSubmit, control, reset } = useForm();
 
     const mutation = useMutation({
         mutationFn: (feedbackData) => axiosSecure.post('/api/feedback', feedbackData),
@@ -23,6 +22,7 @@ const FeedbackModal = ({ isOpen, onClose, classDetails }) => {
     });
 
     const onSubmit = (data) => {
+        
         const feedbackData = {
             ...data,
             classId: classDetails._id,
@@ -41,19 +41,8 @@ const FeedbackModal = ({ isOpen, onClose, classDetails }) => {
             <div className="modal-box">
                 <h3 className="font-bold text-lg">Teaching Evaluation for: {classDetails.title}</h3>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-4">
-                    <Controller
-                        name="rating"
-                        control={control}
-                        rules={{ required: "Rating is required" }}
-                        render={({ field }) => (
-                            <Rating style={{ maxWidth: 180 }} value={field.value} onChange={field.onChange} isRequired />
-                        )}
-                    />
-                    {errors.rating && <span className="text-error text-xs">{errors.rating.message}</span>}
-                    
-                    <textarea {...register("reviewText", { required: "Review is required" })} className="textarea textarea-bordered w-full h-28" placeholder="Share your experience..."></textarea>
-                    {errors.reviewText && <span className="text-error text-xs">{errors.reviewText.message}</span>}
-
+                    <Controller name="rating" control={control} rules={{ required: true }} render={({ field }) => ( <Rating style={{ maxWidth: 180 }} value={field.value} onChange={field.onChange} isRequired /> )} />
+                    <textarea {...register("reviewText", { required: true })} className="textarea textarea-bordered w-full h-28" placeholder="Share your experience..."></textarea>
                     <div className="modal-action">
                         <button type="button" onClick={onClose} className="btn btn-ghost">Cancel</button>
                         <button type="submit" className="btn btn-primary" disabled={mutation.isPending}>
