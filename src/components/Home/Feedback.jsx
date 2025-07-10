@@ -20,8 +20,16 @@ const Feedback = () => {
         }
     });
 
-    if (isLoading) return <div className="py-20"><LoadingSpinner /></div>;
-    if (feedbacks.length === 0) return null;
+    if (isLoading) {
+        return <div className="py-20"><LoadingSpinner /></div>;
+    }
+    if (feedbacks.length === 0) {
+        return (
+            <div className="py-20 text-center">
+                <h3 className="text-2xl font-bold">No Feedback Available Yet</h3>
+            </div>
+        );
+    }
 
     return (
         <div className="py-20 md:py-24 bg-base-200">
@@ -42,18 +50,9 @@ const Feedback = () => {
                     centeredSlides={true}
                     loop={true}
                     slidesPerView={'auto'}
-                    coverflowEffect={{
-                        rotate: 50,
-                        stretch: 0,
-                        depth: 100,
-                        modifier: 1,
-                        slideShadows: true,
-                    }}
+                    coverflowEffect={{ rotate: 50, stretch: 0, depth: 100, modifier: 1, slideShadows: true }}
                     pagination={{ clickable: true }}
-                    autoplay={{
-                        delay: 3500,
-                        disableOnInteraction: false,
-                    }}
+                    autoplay={{ delay: 3500, disableOnInteraction: false }}
                     modules={[EffectCoverflow, Pagination, Autoplay]}
                     className="mySwiper py-4"
                 >
@@ -78,7 +77,7 @@ const Feedback = () => {
                                             </div>
                                             <div>
                                                 <h4 className="font-bold">{feedback.userName || 'Anonymous User'}</h4>
-                                                <h4 className="font-semibold text-gray-400 ">{feedback.userEmail || 'Anonymous User'}</h4>
+                                                <h4 className="font-semibold text-gray-300 ">{feedback.userEmail || 'Anonymous User'}</h4>
                                                 <p className="text-sm font-semibold text-primary mt-1">{feedback.classTitle}</p>
                                             </div>
                                         </div>
