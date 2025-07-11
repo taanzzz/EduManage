@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FaSearch, FaCreditCard, FaLaptopCode } from 'react-icons/fa';
 
-
 const steps = [
     {
         icon: <FaSearch />,
@@ -76,11 +75,9 @@ const HowItWorks = () => {
                             variants={itemVariants}
                             className="relative card bg-base-200 p-8 text-center items-center shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2"
                         >
-                            
                             <span className="absolute -top-4 -left-4 text-8xl font-black text-base-content/5 opacity-50 z-0">
                                 0{index + 1}
                             </span>
-                            
                             
                             <div className="relative z-10">
                                 <div className={`text-5xl p-5 rounded-full mb-6 inline-block bg-base-100 ${step.color}`}>
@@ -91,6 +88,22 @@ const HowItWorks = () => {
                             </div>
                         </motion.div>
                     ))}
+                </motion.div>
+
+                
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.7, delay: 0.3 }}
+                    className="mt-20 max-w-3xl mx-auto text-center bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 p-6 rounded-xl border border-base-300 shadow-md"
+                >
+                    <h4 className="text-xl md:text-2xl font-semibold text-base-content">
+                        🎓 Want to Teach Instead?
+                    </h4>
+                    <p className="text-base text-base-content/70 mt-2">
+                        Not just students — <span className="text-accent font-medium">you can also apply to become a teacher</span> and share your expertise with the world.
+                    </p>
                 </motion.div>
             </div>
         </div>
