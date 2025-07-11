@@ -4,15 +4,21 @@ import Stats from '../../components/Home/Stats'
 import Feedback from '../../components/Home/Feedback'
 import PopularClasses from '../../components/Home/PopularClasses'
 import Banner from '../../components/Home/Banner'
+import WhyChooseUs from '../../components/Home/WhyChooseUs'
+import HowItWorks from '../../components/Home/HowItWorks'
+import HeroSection from '../../components/Home/HeroSection'
 
 const Home = () => {
   return (
     <div>
+      <HeroSection></HeroSection>
       <Banner></Banner>
       <PopularClasses></PopularClasses>
       <Feedback></Feedback>
       <Partners></Partners>
       <Stats></Stats>
+      <HowItWorks></HowItWorks>
+      <WhyChooseUs></WhyChooseUs>
     </div>
   )
 }
