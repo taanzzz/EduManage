@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FaChalkboardTeacher, FaLaptopCode, FaUsers, FaCertificate } from 'react-icons/fa';
 
-
 const features = [
     {
         icon: <FaChalkboardTeacher />,
@@ -51,13 +50,13 @@ const WhyChooseUs = () => {
                     className="text-center mb-16"
                 >
                     <h2 className="text-4xl md:text-5xl font-extrabold text-base-content">
-                        Why <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">EduManage</span> Stands Out
+                        Why <span className="bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">EduManage</span> Stands Out
                     </h2>
                     <p className="text-lg text-base-content/70 mt-4 max-w-3xl mx-auto">
                         We provide a complete ecosystem for learning that empowers both students and instructors through a combination of cutting-edge technology and expert-led content.
                     </p>
                 </motion.div>
-                
+
                 <motion.div 
                     className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
                     variants={containerVariants}
@@ -69,13 +68,13 @@ const WhyChooseUs = () => {
                         <motion.div 
                             key={index}
                             variants={itemVariants}
-                            className="card bg-base-200 p-8 text-center items-center shadow-lg border border-transparent hover:border-primary hover:shadow-primary/20 hover:-translate-y-2 transition-all duration-300"
+                            className="card bg-base-200 p-8 text-center items-center rounded-2xl shadow-lg border border-transparent hover:border-primary hover:shadow-xl hover:shadow-primary/20 hover:-translate-y-2 transition-all duration-300"
                         >
-                            <div className="text-5xl bg-primary/10 text-primary p-5 rounded-full mb-6">
+                            <div className="text-5xl p-5 rounded-full mb-6 bg-gradient-to-br from-primary to-secondary text-white shadow-md">
                                 {feature.icon}
                             </div>
-                            <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                            <p className="text-base-content/80">{feature.description}</p>
+                            <h3 className="text-xl font-bold text-base-content mb-3">{feature.title}</h3>
+                            <p className="text-base text-base-content/80">{feature.description}</p>
                         </motion.div>
                     ))}
                 </motion.div>
