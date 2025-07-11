@@ -5,14 +5,13 @@ import { Link } from 'react-router';
 import { motion } from 'framer-motion';
 import LoadingSpinner from '../Shared/LoadingSpinner';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectCoverflow, Pagination, Navigation, Autoplay } from 'swiper/modules';
+import { Pagination, Navigation, Autoplay, EffectFade } from 'swiper/modules';
 import 'swiper/css';
-import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import 'swiper/css/effect-fade';
 
 const Banner = () => {
-    
     const { data: banners = [], isLoading } = useQuery({
         queryKey: ['banners'],
         queryFn: async () => {
@@ -21,75 +20,59 @@ const Banner = () => {
         }
     });
 
-    
-    if (isLoading) {
-        return (
-            <div className="h-[85vh] flex items-center justify-center bg-base-200">
-                <LoadingSpinner />
-            </div>
-        );
-    }
-
-    
-    if (banners.length === 0) {
-        return null;
-    }
+    if (isLoading) return <div className="h-[90vh] flex items-center justify-center"><LoadingSpinner /></div>;
+    if (banners.length === 0) return null;
 
     return (
-        <div className="w-full h-[60vh] md:h-[85vh] bg-base-200">
+        <div className="w-full h-[70vh] md:h-screen">
             <Swiper
-                effect={'coverflow'}
-                grabCursor={true}
-                centeredSlides={true}
-                slidesPerView={'auto'}
-                loop={true}
-                autoplay={{
-                    delay: 4000,
-                    disableOnInteraction: false,
-                }}
-                coverflowEffect={{
-                    rotate: 0,
-                    stretch: 80,
-                    depth: 200,
-                    modifier: 1,
-                    slideShadows: false,
-                }}
-                pagination={{ clickable: true }}
+                spaceBetween={30}
+                effect={'fade'}
                 navigation={true}
-                modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
+                pagination={{ clickable: true }}
+                loop={true}
+                autoplay={{ delay: 5000, disableOnInteraction: false }}
+                modules={[EffectFade, Navigation, Pagination, Autoplay]}
                 className="w-full h-full"
             >
                 {banners.map((banner) => (
-                    <SwiperSlide key={banner._id} className="w-[80%] md:w-[70%]">
+                    <SwiperSlide key={banner._id}>
                         <div className="relative w-full h-full">
-                            <img src={banner.image} alt={banner.title} className="w-full h-full object-cover rounded-2xl" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent rounded-2xl"></div>
-                            <div className="absolute bottom-0 left-0 p-8 md:p-12 text-white">
+                            <img src={banner.image} alt={banner.titlePart1} className="w-full h-full object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent"></div>
+                            
+                            
+                            <div className="absolute inset-0 z-10 flex flex-col justify-center items-start text-left text-white p-8 md:p-24">
                                 <motion.h1
-                                    key={banner.title}
-                                    initial={{ opacity: 0, y: 20 }}
+                                    key={banner._id} 
+                                    initial={{ opacity: 0, y: 30 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.8, delay: 0.5 }}
-                                    className="text-3xl md:text-5xl font-extrabold"
+                                    transition={{ duration: 0.8 }}
+                                    className="text-4xl md:text-6xl font-extrabold"
                                 >
-                                    {banner.title}
+                                    {banner.titlePart1}
+                                    
+                                    <span className="block mt-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                                        {banner.titlePart2}
+                                    </span>
                                 </motion.h1>
                                 <motion.p 
-                                    key={banner.description}
+                                    key={`${banner._id}-desc`}
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.8, delay: 0.7 }}
-                                    className="mt-4 text-lg max-w-lg"
+                                    transition={{ duration: 0.8, delay: 0.3 }}
+                                    className="mt-6 text-lg md:text-xl max-w-xl"
                                 >
                                     {banner.description}
                                 </motion.p>
                                 <motion.div
-                                    key={banner.buttonText}
+                                    key={`${banner._id}-btn`}
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.8, delay: 0.9 }}
+                                    transition={{ duration: 0.8, delay: 0.5 }}
                                 >
-                                    <Link to={banner.link} className="btn btn-primary btn-lg mt-6">
+                                    
+                                    <Link to={banner.link} className="btn btn-lg mt-8 text-white border-none bg-gradient-to-r from-primary to-secondary hover:scale-105 transition-transform duration-300">
                                         {banner.buttonText}
                                     </Link>
                                 </motion.div>
