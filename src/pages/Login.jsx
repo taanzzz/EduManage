@@ -6,8 +6,10 @@ import { toast } from 'react-toastify';
 import { AuthContext } from '../contexts/AuthProvider';
 import { motion } from 'framer-motion';
 
+
+
 const Login = () => {
-  const { login, googleSignIn, loading, setLoading } = useContext(AuthContext);
+  const { login, googleSignIn, loading, setLoading, resetPassword } = useContext(AuthContext);
   const [loginError, setLoginError] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
@@ -16,23 +18,39 @@ const Login = () => {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  
+  const onSubmit = async (data) => {
     setLoginError('');
-    login(data.email, data.password)
-      .then((result) => {
-        toast.success(`Welcome back, ${result.user.displayName || 'User'}!`);
-        navigate(from, { replace: true });
-      })
-      .catch((err) => {
-        console.error(err);
-        setLoginError('Invalid email or password. Please try again.');
-        setLoading(false);
-      });
+    try {
+      const result = await login(data.email, data.password);
+
+      
+      const maxWaitTime = 5000;
+      const startTime = Date.now();
+
+      const waitForToken = setInterval(() => {
+        const token = localStorage.getItem('access-token');
+        if (token) {
+          clearInterval(waitForToken);
+          toast.success(`Welcome back, ${result.user.displayName || 'User'}!`);
+          navigate(from, { replace: true });
+        } else if (Date.now() - startTime > maxWaitTime) {
+          clearInterval(waitForToken);
+          setLoginError('Login succeeded but token not received. Please refresh.');
+        }
+      }, 300);
+    } catch (err) {
+      console.error(err);
+      setLoginError('Invalid email or password. Please try again.');
+      setLoading(false);
+    }
   };
 
+  
   const handleGoogleSignIn = () => {
     setLoginError('');
     googleSignIn()
@@ -47,10 +65,31 @@ const Login = () => {
       });
   };
 
+  
+  const handleForgetPassword = async () => {
+    const email = getValues('email');
+    if (!email) {
+      toast.error("Please enter your email first.");
+      return;
+    }
+
+    try {
+      
+      await resetPassword(email);
+      toast.success(`Password reset email sent to ${email}`);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to send reset email. Try again.");
+    } finally {
+      
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-base-200 to-base-100 flex flex-col lg:flex-row items-center justify-center px-6 py-12 gap-8 relative overflow-hidden">
+
       
-      {/* Left: Login Form */}
       <div className="w-full max-w-md bg-base-100 shadow-xl rounded-2xl p-8 z-10">
         <h2 className="text-4xl font-extrabold text-center mb-4 bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
           Login to Your Account
@@ -60,6 +99,7 @@ const Login = () => {
         </p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          
           <div>
             <label className="label font-medium">Email</label>
             <input
@@ -71,6 +111,7 @@ const Login = () => {
             {errors.email && <p className="text-error text-sm">{errors.email.message}</p>}
           </div>
 
+          
           <div>
             <label className="label font-medium">Password</label>
             <input
@@ -80,10 +121,22 @@ const Login = () => {
               {...register('password', { required: 'Password is required' })}
             />
             {errors.password && <p className="text-error text-sm">{errors.password.message}</p>}
+
+            
+            <p className="text-sm text-right mt-1">
+              <button
+                type="button"
+                className="text-primary hover:underline"
+                onClick={handleForgetPassword}
+              >
+                Forgot Password?
+              </button>
+            </p>
           </div>
 
           {loginError && <p className="text-error text-center text-sm">{loginError}</p>}
 
+          
           <button
             type="submit"
             className="btn w-full bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-full mt-4"
@@ -92,6 +145,7 @@ const Login = () => {
             {loading ? <span className="loading loading-spinner"></span> : 'Login'}
           </button>
 
+          
           <div className="divider text-sm text-base-content/60">or continue with</div>
 
           <button
@@ -113,7 +167,7 @@ const Login = () => {
         </form>
       </div>
 
-      {/* Right: Animated Aesthetic Shapes */}
+      {/* Right: Animated Shapes */}
       <div className="hidden lg:flex flex-col items-center justify-center relative w-full max-w-xl z-0">
         <motion.div
           animate={{ scale: [1, 1.1, 1], rotate: [0, 15, -15, 0] }}

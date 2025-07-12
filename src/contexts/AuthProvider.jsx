@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState, useMemo } from 'react';
-import {createUserWithEmailAndPassword,GoogleAuthProvider,onAuthStateChanged,signInWithEmailAndPassword,signInWithPopup,signOut,updateProfile} from 'firebase/auth';
+import {createUserWithEmailAndPassword,GoogleAuthProvider,onAuthStateChanged,sendPasswordResetEmail,signInWithEmailAndPassword,signInWithPopup,signOut,updateProfile} from 'firebase/auth';
 import { auth } from './../firebase/firebase.init';
 import axiosSecure from './../api/Axios';
 import { ToastContainer } from 'react-toastify';
@@ -82,6 +82,10 @@ export const AuthProvider = ({ children }) => {
         setLoading(true);
         return signOut(auth);
     };
+    const resetPassword = (email) => {
+        setLoading(true); 
+        return sendPasswordResetEmail(auth, email);
+    };
 
     const authInfo = useMemo(() => ({
         user,
@@ -92,6 +96,7 @@ export const AuthProvider = ({ children }) => {
         register,
         googleSignIn,
         logout,
+        resetPassword,
     }), [user, userRole, loading]);
 
     return (

@@ -20,19 +20,39 @@ const Register = () => {
 
   const password = watch('password');
 
-  const onSubmit = (data) => {
-    setRegisterError('');
-    registerUser({ name: data.name, email: data.email, password: data.password })
-      .then(() => {
-        toast.success(`Account created successfully! Welcome, ${data.name}!`);
+  const onSubmit = async (data) => {
+  setRegisterError('');
+
+  const name = data.name;
+  const email = data.email;
+  const password = data.password;
+  const photoURL = `https://api.dicebear.com/7.x/thumbs/svg?seed=${name}`;
+
+  try {
+    const result = await registerUser(name, email, photoURL, password);
+
+    
+    const maxWaitTime = 5000;
+    const startTime = Date.now();
+
+    const waitForToken = setInterval(() => {
+      const token = localStorage.getItem('access-token');
+      if (token) {
+        clearInterval(waitForToken);
+        toast.success(`Account created successfully! Welcome, ${name}!`);
         navigate('/');
-      })
-      .catch((err) => {
-        console.error(err);
-        setRegisterError(err.message);
-        setLoading(false);
-      });
-  };
+      } else if (Date.now() - startTime > maxWaitTime) {
+        clearInterval(waitForToken);
+        setRegisterError('Registration succeeded but token not received. Please refresh.');
+      }
+    }, 300);
+  } catch (err) {
+    console.error(err);
+    setRegisterError(err.message || 'Something went wrong during registration.');
+    setLoading(false);
+  }
+};
+
 
   const handleGoogleSignIn = () => {
     setRegisterError('');
