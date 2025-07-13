@@ -7,18 +7,20 @@ import Banner from '../../components/Home/Banner'
 import WhyChooseUs from '../../components/Home/WhyChooseUs'
 import HowItWorks from '../../components/Home/HowItWorks'
 import HeroSection from '../../components/Home/HeroSection'
+import KnowledgeSection from '../../components/Home/KnowledgeSection'
 
 const Home = () => {
   return (
     <div>
       <HeroSection></HeroSection>
       <Banner></Banner>
-      <PopularClasses></PopularClasses>
-      <Feedback></Feedback>
       <Partners></Partners>
-      <Stats></Stats>
-      <HowItWorks></HowItWorks>
       <WhyChooseUs></WhyChooseUs>
+      <PopularClasses></PopularClasses>
+      <HowItWorks></HowItWorks>
+      <Stats></Stats>
+      <Feedback></Feedback>
+      <KnowledgeSection></KnowledgeSection>
     </div>
   )
 }
