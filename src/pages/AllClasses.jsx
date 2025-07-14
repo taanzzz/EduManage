@@ -17,8 +17,7 @@ const AllClasses = () => {
             return res.data;
         },
     });
-    
-    
+
     if (isLoading) {
         return <LoadingSpinner />;
     }
@@ -43,45 +42,47 @@ const AllClasses = () => {
     };
 
     return (
-        <div className="w-full min-h-screen p-4 sm:p-6 md:p-8 bg-base-200">
+        <div className="w-full min-h-screen p-4 sm:p-6 md:p-8 bg-gradient-to-b from-base-100 to-base-200">
             <div className="max-w-7xl mx-auto">
-                {/* Hero Section */}
-                <div className="mb-12 text-center py-12 bg-base-100 rounded-2xl shadow-lg">
-                    <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent pb-2">
+                
+                <div className="mb-12 text-center py-14 px-6 md:px-10 bg-white/70 dark:bg-base-300 backdrop-blur-lg rounded-3xl shadow-xl">
+                    <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-primary via-pink-500 to-secondary bg-clip-text text-transparent">
                         Explore Our Classes
                     </h1>
                     <p className="text-lg text-base-content/70 mt-2">Find the perfect class to achieve your learning goals.</p>
                     <form onSubmit={handleSearch} className="mt-8 max-w-lg mx-auto">
                         <div className="join w-full">
-                            <input name="search" className="input input-bordered join-item w-full" placeholder="Search by class title..."/>
-                            <button type="submit" className="btn join-item rounded-r-full btn-primary text-white">Search</button>
+                            <input name="search" className="input input-bordered join-item w-full bg-white/90 focus:outline-none focus:ring-2 focus:ring-secondary rounded-l-full" placeholder="Search by class title..."/>
+                            <button type="submit" className="btn join-item rounded-r-full bg-gradient-to-r from-primary to-secondary text-white shadow-md hover:scale-105 transition-transform duration-200">
+                                Search
+                            </button>
                         </div>
                     </form>
                 </div>
 
                 {approvedClasses.length === 0 && !isLoading ? (
                     <div className="text-center py-20">
-                        <h2 className="text-2xl font-bold">No classes found {searchTerm && `for "${searchTerm}"`}</h2>
+                        <h2 className="text-2xl font-bold text-base-content">No classes found {searchTerm && `for "${searchTerm}"`}</h2>
                     </div>
                 ) : (
                     <>
-                        {/* Animated Card Grid */}
+                        
                         <motion.div 
                             variants={containerVariants}
                             initial="hidden"
                             animate="visible"
-                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
                         >
                             {approvedClasses.map(cls => <ClassCard key={cls._id} cls={cls} />)}
                         </motion.div>
 
-                        {/* Pagination */}
-                        <div className="join flex justify-center mt-12">
+                        
+                        <div className="join flex justify-center mt-14">
                             {[...Array(totalPages).keys()].map(number => (
                                 <button
                                     key={number + 1}
                                     onClick={() => setCurrentPage(number + 1)}
-                                    className={`join-item btn ${currentPage === number + 1 ? 'btn-primary text-white' : ''}`}
+                                    className={`join-item btn text-base-content border-base-300 ${currentPage === number + 1 ? 'bg-gradient-to-r from-primary to-secondary text-white font-semibold shadow-md' : 'hover:bg-base-300'}`}
                                 >
                                     {number + 1}
                                 </button>

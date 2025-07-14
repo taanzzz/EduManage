@@ -8,6 +8,7 @@ import WhyChooseUs from '../../components/Home/WhyChooseUs'
 import HowItWorks from '../../components/Home/HowItWorks'
 import HeroSection from '../../components/Home/HeroSection'
 import KnowledgeSection from '../../components/Home/KnowledgeSection'
+import FeaturedInstructors from '../../components/Home/FeaturedInstructors'
 
 const Home = () => {
   return (
@@ -20,6 +21,7 @@ const Home = () => {
       <HowItWorks></HowItWorks>
       <Stats></Stats>
       <Feedback></Feedback>
+      <FeaturedInstructors></FeaturedInstructors>
       <KnowledgeSection></KnowledgeSection>
     </div>
   )

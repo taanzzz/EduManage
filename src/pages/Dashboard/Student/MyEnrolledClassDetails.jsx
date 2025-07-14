@@ -7,6 +7,7 @@ import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
 import AssignmentSubmissionRow from './AssignmentSubmissionRow';
 import FeedbackModal from './FeedbackModal';
 
+
 const MyEnrolledClassDetails = () => {
     const { id: classId } = useParams();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,97 +26,66 @@ const MyEnrolledClassDetails = () => {
         enabled: !!classId,
     });
 
-    if (isLoading) {
-        return <LoadingSpinner />;
-    }
-
-    if (isError || !data) {
-        return <div className="text-center text-xl font-bold py-20 text-error">Error loading class data.</div>;
-    }
+    if (isLoading) return <LoadingSpinner />;
+    if (isError || !data) return <div className="text-center text-xl p-8">Error loading data.</div>;
 
     const { classDetails, assignments } = data;
 
     return (
         <>
-            <div className="w-full min-h-screen px-4 py-10 sm:px-6 md:px-8 bg-gradient-to-br from-base-200 via-base-100 to-base-300">
+            <div className="w-full min-h-screen p-4 sm:p-6 md:p-8 bg-base-200">
                 <div className="max-w-7xl mx-auto">
-
-                    {/* Banner */}
-                    <div
-                        className="relative rounded-3xl overflow-hidden shadow-xl mb-10"
-                        style={{
-                            backgroundImage: `url(${classDetails?.image})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                        }}
-                    >
-                        <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/60 backdrop-blur-sm rounded-3xl z-0" />
-                        <div className="relative z-10 px-8 py-14 text-center">
-                            <h1 className="text-4xl md:text-5xl font-extrabold text-white">
-                                {classDetails?.title}
-                            </h1>
-                            <p className="mt-4 text-white/80 text-lg">
-                                Submit your assignments and share your feedback with the instructor.
-                            </p>
+                    
+                    <div className="relative rounded-2xl overflow-hidden shadow-xl mb-8">
+                        <img src={classDetails?.image} className="absolute inset-0 w-full h-full object-cover blur-sm"/>
+                        <div className="absolute inset-0 bg-black/60"></div>
+                        <div className="relative z-10 p-12 text-center">
+                            <h1 className="text-4xl font-extrabold text-white">{classDetails?.title}</h1>
+                            <p className="mt-2 text-white/80">Submit your assignments and share your feedback.</p>
                         </div>
                     </div>
 
-                    {/* TER Button */}
-                    <div className="text-center mb-10">
-                        <button
-                            onClick={() => setIsModalOpen(true)}
-                            className="btn px-6 py-2 bg-gradient-to-r from-secondary via-primary to-accent text-white rounded-full shadow-lg hover:scale-105 transition-transform"
-                        >
-                            <FaStar className="mr-2" /> Teaching Evaluation Report (TER)
-                        </button>
-                    </div>
+                    
+                    <div className="text-center mb-8"><button onClick={() => setIsModalOpen(true)} className="btn btn-accent text-white"><FaStar /> Teaching Evaluation Report (TER)</button></div>
 
-                    {/* Assignments Table */}
-                    <div className="bg-base-100 rounded-3xl shadow-md p-6 md:p-8">
-                        <h2 className="text-2xl font-bold text-base-content mb-6 border-b border-base-300 pb-3">
-                            Assignments
-                        </h2>
-
-                        <div className="overflow-x-auto">
-                            <table className="table w-full text-base">
-                                <thead className="bg-gradient-to-r from-primary/10 to-secondary/10 text-base-content font-semibold">
-                                    <tr>
-                                        <th className="py-3">Title</th>
-                                        <th>Description</th>
-                                        <th>Deadline</th>
-                                        <th>Submission</th>
-                                    </tr>
+                    {/* --- Assignments Section --- */}
+                    <div className="bg-base-100 rounded-2xl shadow-lg p-6 md:p-8">
+                        <h2 className="text-3xl font-bold text-base-content mb-6 border-b border-base-300 pb-4">Assignments</h2>
+                        
+                        
+                        <div className="hidden md:block overflow-x-auto">
+                            <table className="table w-full">
+                                <thead className="text-sm uppercase text-base-content/60">
+                                    <tr><th className="p-4">Title</th><th>Description</th><th>Deadline</th><th className="w-1/3">Submission</th></tr>
                                 </thead>
                                 <tbody>
                                     {assignments?.length > 0 ? (
                                         assignments.map((assignment) => (
-                                            <AssignmentSubmissionRow
-                                                key={assignment._id}
-                                                assignment={assignment}
-                                                classId={classId}
-                                            />
+                                            <AssignmentSubmissionRow key={assignment._id} assignment={assignment} classId={classId} />
                                         ))
                                     ) : (
-                                        <tr>
-                                            <td colSpan="4" className="text-center py-10 text-base-content/60">
-                                                No assignments have been added for this class yet.
-                                            </td>
-                                        </tr>
+                                        <tr><td colSpan="4" className="text-center py-10">No assignments have been added yet.</td></tr>
                                     )}
                                 </tbody>
                             </table>
+                        </div>
+
+                        
+                        <div className="md:hidden grid grid-cols-1 gap-6">
+                            {assignments?.length > 0 ? (
+                                assignments.map((assignment) => (
+                                    <AssignmentSubmissionRow key={assignment._id} assignment={assignment} classId={classId} isMobile={true} />
+                                ))
+                            ) : (
+                                <div className="text-center py-10">No assignments have been added yet.</div>
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* Modal */}
             {classDetails && (
-                <FeedbackModal
-                    isOpen={isModalOpen}
-                    onClose={() => setIsModalOpen(false)}
-                    classDetails={classDetails}
-                />
+                <FeedbackModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} classDetails={classDetails}/>
             )}
         </>
     );

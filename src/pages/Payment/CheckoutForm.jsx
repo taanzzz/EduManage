@@ -12,15 +12,19 @@ const CheckoutForm = ({ classDetails, clientSecret }) => {
     const navigate = useNavigate();
     const [processing, setProcessing] = useState(false);
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         if (!stripe || !elements || !clientSecret) return;
+
         setProcessing(true);
-
         const card = elements.getElement(CardElement);
-        if (card == null) return;
+        if (!card) return;
 
-        const { error, paymentMethod } = await stripe.createPaymentMethod({ type: 'card', card });
+        const { error, paymentMethod } = await stripe.createPaymentMethod({
+            type: 'card',
+            card,
+        });
+
         if (error) {
             toast.error(error.message);
             setProcessing(false);
@@ -28,7 +32,13 @@ const CheckoutForm = ({ classDetails, clientSecret }) => {
         }
 
         const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
-            payment_method: { card, billing_details: { email: user?.email, name: user?.displayName } },
+            payment_method: {
+                card,
+                billing_details: {
+                    email: user?.email || 'unknown',
+                    name: user?.displayName || 'Guest',
+                },
+            },
         });
 
         if (confirmError) {
@@ -47,19 +57,53 @@ const CheckoutForm = ({ classDetails, clientSecret }) => {
                 });
                 toast.success('🎉 Payment successful & enrolled!');
                 navigate('/dashboard/my-enrolled-classes');
-            } catch (enrollError) {
-                toast.error('Payment successful, but enrollment failed. Contact support.');
+            } catch {
+                toast.error('Payment succeeded but enrollment failed.');
             }
         }
+
         setProcessing(false);
     };
 
     return (
-        <form onSubmit={handleSubmit} className="p-8 bg-base-100 rounded-lg shadow-lg space-y-4">
-            <h2 className="text-xl font-bold">Pay with Card</h2>
-            <CardElement options={{ style: { base: { fontSize: '16px' } } }} />
-            <button type="submit" disabled={!stripe || !clientSecret || processing} className="btn btn-primary w-full mt-6 text-white">
-                {processing ? <span className="loading loading-spinner"></span> : `Pay $${classDetails?.price}`}
+        <form 
+            onSubmit={handleSubmit} 
+            className="w-full max-w-xl mx-auto p-8 bg-white dark:bg-base-200 rounded-3xl shadow-2xl border border-base-300 space-y-6 transition-all"
+        >
+            <h2 className="text-3xl font-extrabold text-center bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                Complete Your Payment
+            </h2>
+            <p className="text-center text-base text-base-content/70">
+                You're enrolling in: <strong className="text-base-content">{classDetails.title}</strong>
+            </p>
+
+            <div className="p-4 rounded-xl border border-dashed border-primary bg-base-100/50 dark:bg-base-300/40">
+                <CardElement
+                    options={{
+                        style: {
+                            base: {
+                                fontSize: '16px',
+                                color: '#1f2937',
+                                '::placeholder': { color: '#9ca3af' },
+                            },
+                            invalid: { color: '#ef4444' },
+                        },
+                    }}
+                />
+            </div>
+
+            <button
+                type="submit"
+                disabled={!stripe || !clientSecret || processing}
+                className={`w-full btn btn-primary rounded-full shadow-md transition duration-300 hover:shadow-lg ${
+                    processing ? 'btn-disabled' : ''
+                }`}
+            >
+                {processing ? (
+                    <span className="loading loading-spinner"></span>
+                ) : (
+                    `Pay $${classDetails?.price || '...'}`
+                )}
             </button>
         </form>
     );

@@ -1,5 +1,3 @@
-// 📁 File: src/routes/Routes.jsx
-
 import { createBrowserRouter } from "react-router";
 import Root from "../layouts/Root";
 import Login from './../pages/Login';
@@ -22,6 +20,7 @@ import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import MyEnrolledClassDetails from "../pages/Dashboard/Student/MyEnrolledClassDetails";
 import MyClassDetails from './../pages/Dashboard/Teacher/MyClassDetails';
 import PrivateRoute from "./PrivateRoute";
+import MyOrder from "../pages/Dashboard/Student/MyOrder";
 
 
 
@@ -36,17 +35,17 @@ export const router = createBrowserRouter([
             { path: "login", element: <Login /> },
             { path: "register", element: <Register /> },
             { path: "all-classes", element: <AllClasses /> },
-            { path: "teach-on-edu", element: <PrivateRoute><TeachOnEdu /></PrivateRoute> },
             { 
                 path: "/class-details/:id", 
                 element: <PrivateRoute><ClassDetails /></PrivateRoute> 
-            }, // <-- এই লাইনটি যোগ করুন
+            }, 
             {
     path: "/payment/:id",
     element: <PrivateRoute><Payment /></PrivateRoute>,
 },
         ],
     },
+    { path: "teach-on-edu", element: <PrivateRoute><TeachOnEdu /></PrivateRoute> },
     // Dashboard Routes
     {
         path: "dashboard",
@@ -58,13 +57,14 @@ export const router = createBrowserRouter([
             // Student Routes
             { 
                 path: "my-enrolled-classes", 
-                element: <MyEnrolledClasses /> // <-- নতুন রুট
+                element: <MyEnrolledClasses /> 
         
             },
             { 
     path: "my-enrolled-class-details/:id", 
     element: <PrivateRoute><MyEnrolledClassDetails /></PrivateRoute>
 },
+{ path: "my-orders", element: <PrivateRoute><MyOrder /></PrivateRoute> },
 
             // Teacher Routes
             { path: "add-class", element: <TeacherRoute><AddClass /></TeacherRoute> },

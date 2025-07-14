@@ -46,7 +46,7 @@ const MyClassDetails = () => {
     <>
       <div className="p-8 w-full  min-h-screen max-w-7xl mx-auto">
         <h1 className="text-3xl md:text-4xl font-extrabold mb-3">
-          Class Details: <span className="text-primary bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent select-none">{classDetails?.title}</span>
+          Class Details: <span className=" bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent select-none">{classDetails?.title}</span>
         </h1>
         <p className="mb-10 text-base-content/70 max-w-xl">
           Manage assignments and view progress for your class.
@@ -84,46 +84,72 @@ const MyClassDetails = () => {
 
         {/* Student Submissions Table */}
         <section className="bg-base-100 rounded-xl shadow-lg p-6">
-          <h2 className="text-2xl font-bold mb-6">Student Submissions</h2>
-          <div className="overflow-x-auto">
-            <table className="table table-zebra w-full text-left">
-              <thead className="bg-base-200">
+    <h2 className="text-2xl font-bold mb-6">Student Submissions</h2>
+
+    
+    <div className="hidden md:block overflow-x-auto">
+        <table className="table table-zebra w-full text-left">
+            <thead className="bg-base-200">
                 <tr>
-                  <th className="py-3 px-4 font-semibold text-sm uppercase text-gray-600">Student Email</th>
-                  <th className="py-3 px-4 font-semibold text-sm uppercase text-gray-600">Assignment Title</th>
-                  <th className="py-3 px-4 font-semibold text-sm uppercase text-gray-600">Submitted Content/Link</th>
+                    <th className="py-3 px-4 font-semibold text-sm uppercase">Student Email</th>
+                    <th className="py-3 px-4 font-semibold text-sm uppercase">Assignment Title</th>
+                    <th className="py-3 px-4 font-semibold text-sm uppercase">Submitted Content/Link</th>
                 </tr>
-              </thead>
-              <tbody>
+            </thead>
+            <tbody>
                 {submissions?.length > 0 ? (
-                  submissions.map((sub) => (
-                    <tr key={sub._id} className="hover:bg-base-200 transition-colors">
-                      <td className="py-3 px-4 break-all">{sub.studentEmail}</td>
-                      <td className="py-3 px-4 font-semibold">{assignmentTitles?.[sub.assignmentId] || 'N/A'}</td>
-                      <td className="py-3 px-4 break-words">
-                        <a
-                          href={sub.submissionText}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="link link-primary hover:underline break-all"
-                          title={sub.submissionText}
-                        >
-                          {sub.submissionText}
-                        </a>
-                      </td>
-                    </tr>
-                  ))
+                    submissions.map((sub) => (
+                        <tr key={sub._id} className="hover:bg-base-200/50">
+                            <td className="py-3 px-4 break-all">{sub.studentEmail}</td>
+                            <td className="py-3 px-4 font-semibold">{assignmentTitles?.[sub.assignmentId] || 'N/A'}</td>
+                            <td className="py-3 px-4">
+                                <a href={sub.submissionText} target="_blank" rel="noopener noreferrer" className="link link-primary break-all">
+                                    {sub.submissionText}
+                                </a>
+                            </td>
+                        </tr>
+                    ))
                 ) : (
-                  <tr>
-                    <td colSpan="3" className="text-center py-6 text-base-content/70 italic">
-                      No submissions yet for this class.
-                    </td>
-                  </tr>
+                    <tr>
+                        <td colSpan="3" className="text-center py-6 text-base-content/70 italic">
+                            No submissions yet for this class.
+                        </td>
+                    </tr>
                 )}
-              </tbody>
-            </table>
-          </div>
-        </section>
+            </tbody>
+        </table>
+    </div>
+
+    
+    <div className="md:hidden grid grid-cols-1 gap-4">
+        {submissions?.length > 0 ? (
+            submissions.map((sub) => (
+                <div key={sub._id} className="card bg-base-200 shadow-md p-4">
+                    <div className="space-y-3">
+                        <div>
+                            <p className="text-xs font-semibold uppercase text-base-content/60">Assignment Title</p>
+                            <p className="font-bold text-primary">{assignmentTitles?.[sub.assignmentId] || 'N/A'}</p>
+                        </div>
+                        <div>
+                            <p className="text-xs font-semibold uppercase text-base-content/60">Student Email</p>
+                            <p className="break-all">{sub.studentEmail}</p>
+                        </div>
+                        <div>
+                            <p className="text-xs font-semibold uppercase text-base-content/60">Submission</p>
+                            <a href={sub.submissionText} target="_blank" rel="noopener noreferrer" className="link link-primary break-all">
+                                {sub.submissionText}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            ))
+        ) : (
+            <div className="text-center py-6 text-base-content/70 italic">
+                No submissions yet for this class.
+            </div>
+        )}
+    </div>
+</section>
       </div>
 
       <CreateAssignmentModal
