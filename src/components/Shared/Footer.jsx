@@ -8,20 +8,39 @@ const Footer = () => {
         <div className="bg-base-200 text-base-content/80"> 
             <div className=" px-4 py-12 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8">
                 
-                <div className="p-8 text-center bg-base-100/50 rounded-2xl border border-base-300/50 shadow-xl">
-                    <h2 className="text-3xl font-extrabold text-base-content sm:text-4xl">
-                        Become an Instructor
-                    </h2>
-                    <p className="max-w-md mx-auto mt-4 text-lg text-base-content/70">
-                        Share your knowledge with millions of students around the world. We provide the tools and skills to teach what you love.
-                    </p>
-                    <Link
-                        to="/teach-on-edu"
-                        className="inline-block px-8 py-3 mt-8 font-semibold text-white transition-transform duration-300 ease-in-out border-none rounded-lg bg-gradient-to-r from-primary to-secondary hover:scale-105"
-                    >
-                        Start Teaching Today
-                    </Link>
-                </div>
+                <div className="bg-base-100 rounded-2xl shadow-xl overflow-hidden">
+    <div className="grid grid-cols-1 lg:grid-cols-2">
+        
+        
+        <div className="relative hidden lg:block h-full">
+            <img 
+                src="https://i.ibb.co/Q37pkcJ2/20250715-095259.jpg" 
+                alt="An instructor teaching" 
+                className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-primary/20"></div>
+        </div>
+
+        
+        <div className="p-8 md:p-12 flex flex-col justify-center text-center lg:text-left">
+            <h2 className="text-3xl font-extrabold text-base-content sm:text-4xl">
+                Become an Instructor
+            </h2>
+            <p className="max-w-md mx-auto lg:mx-0 mt-4 text-lg text-base-content/70">
+                Share your knowledge with millions of students around the world. We provide the tools and skills to teach what you love.
+            </p>
+            <div className="mt-8">
+                <Link
+                    to="/teach-on-edu"
+                    className="inline-block px-8 py-3 font-semibold text-white transition-transform duration-300 ease-in-out border-none rounded-lg bg-gradient-to-r from-primary to-secondary hover:scale-105"
+                >
+                    Start Teaching Today
+                </Link>
+            </div>
+        </div>
+        
+    </div>
+</div>
 
                 <nav className="grid grid-cols-2 gap-8 pt-10 mt-10 border-t md:grid-cols-4 border-base-300/50">
                     <div className="text-center md:text-left">
