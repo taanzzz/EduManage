@@ -46,37 +46,37 @@ const Footer = () => {
                     <div className="text-center md:text-left">
                         <h6 className="text-lg font-semibold text-base-content">Solutions</h6>
                         <div className="mt-4 space-y-2">
-                            <Link to="#" className="text-base hover:text-primary">Marketing</Link><br />
-                            <Link to="#" className="text-base hover:text-primary">Analytics</Link><br />
-                            <Link to="#" className="text-base hover:text-primary">Commerce</Link><br />
-                            <Link to="#" className="text-base hover:text-primary">Insights</Link>
+                            <Link to="/marketing" className="text-base hover:text-primary">Marketing</Link><br />
+                            <Link to="/analytics" className="text-base hover:text-primary">Analytics</Link><br />
+                            <Link to="/commerce" className="text-base hover:text-primary">Commerce</Link><br />
+                            <Link to="/insights" className="text-base hover:text-primary">Insights</Link>
                         </div>
                     </div>
                     <div className="text-center md:text-left">
                         <h6 className="text-lg font-semibold text-base-content">Support</h6>
                         <div className="mt-4 space-y-2">
-                            <Link to="#" className="text-base hover:text-primary">Pricing</Link><br />
-                            <Link to="#" className="text-base hover:text-primary">Documentation</Link><br />
-                            <Link to="#" className="text-base hover:text-primary">Guides</Link><br />
-                            <Link to="#" className="text-base hover:text-primary">API Status</Link>
+                            <Link to="/pricing" className="text-base hover:text-primary">Pricing</Link><br />
+                            <Link to="/documentation" className="text-base hover:text-primary">Documentation</Link><br />
+                            <Link to="/contact" className="text-base hover:text-primary">Contact</Link><br />
+                            <Link to="/api-status" className="text-base hover:text-primary">API Status</Link>
                         </div>
                     </div>
                     <div className="text-center md:text-left">
                         <h6 className="text-lg font-semibold text-base-content">Company</h6>
                         <div className="mt-4 space-y-2">
                             <Link to="/about" className="text-base hover:text-primary">About</Link><br />
-                            <Link to="#" className="text-base hover:text-primary">Blog</Link><br />
-                            <Link to="#" className="text-base hover:text-primary">Jobs</Link><br />
-                            <Link to="#" className="text-base hover:text-primary">Press</Link>
+                            <Link to="/blog" className="text-base hover:text-primary">Blog</Link><br />
+                            <Link to="/jobs" className="text-base hover:text-primary">Jobs</Link><br />
+                            <Link to="/press" className="text-base hover:text-primary">Press</Link>
                         </div>
                     </div>
                     <div className="text-center md:text-left">
                         <h6 className="text-lg font-semibold text-base-content">Legal</h6>
                         <div className="mt-4 space-y-2">
-                            <Link to="#" className="text-base hover:text-primary">Claim</Link><br />
+                            <Link to="/claim" className="text-base hover:text-primary">Claim</Link><br />
                             <Link to="/privacy" className="text-base hover:text-primary">Privacy</Link><br />
                             <Link to="/terms" className="text-base hover:text-primary">Terms</Link><br />
-                            <Link to="#" className="text-base hover:text-primary">Policies</Link>
+                            <Link to="/policies" className="text-base hover:text-primary">Policies</Link>
                         </div>
                     </div>
                 </nav>

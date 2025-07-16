@@ -9,6 +9,7 @@ import HowItWorks from '../../components/Home/HowItWorks'
 import HeroSection from '../../components/Home/HeroSection'
 import KnowledgeSection from '../../components/Home/KnowledgeSection'
 import FeaturedInstructors from '../../components/Home/FeaturedInstructors'
+import ChatLauncher from '../../components/Chatbot/ChatLauncher'
 
 const Home = () => {
   return (
@@ -23,6 +24,7 @@ const Home = () => {
       <Feedback></Feedback>
       <FeaturedInstructors></FeaturedInstructors>
       <KnowledgeSection></KnowledgeSection>
+      <ChatLauncher></ChatLauncher>
     </div>
   )
 }

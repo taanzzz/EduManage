@@ -21,6 +21,23 @@ import MyEnrolledClassDetails from "../pages/Dashboard/Student/MyEnrolledClassDe
 import MyClassDetails from './../pages/Dashboard/Teacher/MyClassDetails';
 import PrivateRoute from "./PrivateRoute";
 import MyOrder from "../pages/Dashboard/Student/MyOrder";
+import AboutUs from "../pages/AboutUs";
+import Contact from "../pages/Contact";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
+import TermsOfService from "../pages/TermsOfService";
+import Blog from "../pages/Blog";
+import Jobs from "../pages/Jobs";
+import Press from "../pages/Press";
+import Marketing from "../pages/Marketing";
+import Analytics from "../pages/Analystics";
+import Commerce from "../pages/Commerce";
+import Insights from "../pages/Insights";
+import Documentation from "../pages/Documentation";
+import ApiStatus from "../pages/ApiStatus";
+import Claim from "../pages/Claim";
+import Policies from "../pages/Policies";
+import Pricing from "../pages/Pricing";
+
 
 
 
@@ -35,6 +52,22 @@ export const router = createBrowserRouter([
             { path: "login", element: <Login /> },
             { path: "register", element: <Register /> },
             { path: "all-classes", element: <AllClasses /> },
+            { path: "about", element: <AboutUs /> },
+            { path: "contact", element: <Contact /> },
+            { path: "privacy", element: <PrivacyPolicy /> },
+            { path: "terms", element: <TermsOfService /> },
+            { path: "blog", element: <Blog /> },
+            { path: "jobs", element: <Jobs /> },
+            { path: "press", element: <Press /> },
+            { path: "marketing", element: <Marketing /> },
+            { path: "analytics", element: <Analytics /> },
+            { path: "commerce", element: <Commerce /> },
+            { path: "insights", element: <Insights /> },
+            { path: "documentation", element: <Documentation /> },
+            { path: "api-status", element: <ApiStatus /> },
+            { path: "claim", element: <Claim /> },
+            { path: "policies", element: <Policies /> },
+            { path: "pricing", element: <Pricing /> },
             { 
                 path: "/class-details/:id", 
                 element: <PrivateRoute><ClassDetails /></PrivateRoute> 
