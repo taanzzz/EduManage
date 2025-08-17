@@ -1,5 +1,3 @@
-// 📁 File: tailwind.config.js
-
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -20,41 +18,45 @@ export default {
         'gradient-bg': {
           '0%, 100%': { 'background-position': '0% 50%' },
           '50%': { 'background-position': '100% 50%' },
-        }
-      }
+        },
+      },
+      backgroundImage: {
+        'light-gradient': 'linear-gradient(to right, #FFFFFF, #BFDBFE)', // White to light blue
+        'dark-gradient': 'linear-gradient(to right, #111827, #1E3A8A)', // Navy blue to darker blue
+      },
+      colors: {
+        'light-text': '#1F2937', // Dark grey for light mode text
+        'dark-text': '#E5E7EB', // Light grey for dark mode text
+      },
     },
   },
   plugins: [require("daisyui")],
-
-  // daisyUI থিম কনফিগারেশন 
   daisyui: {
     themes: [
       {
-        // আমাদের কাস্টম লাইট থিম
         light: {
           ...require("daisyui/src/theming/themes")["light"],
-          "primary": "#0D9488",   // ডিপ টিল (Teal)
-          "secondary": "#38BDF8", // ভাইব্রেন্ট স্কাই ব্লু
-          "accent": "#818CF8",    // সফট ইন্ডিগো
-          "neutral": "#1F2937",   // ডার্ক গ্রে
-          "base-100": "#FFFFFF",  // সাদা ব্যাকগ্রাউন্ড
-          "base-200": "#F3F4F6",  // হালকা ধূসর ব্যাকগ্রাউন্ড
-          "base-300": "#E5E7EB",  // আরও একটু গাঢ় ধূসর
-          "base-content": "#1F2937", // ডার্ক টেক্সট
+          "primary": "#0D9488", // Deep Teal
+          "secondary": "#38BDF8", // Vibrant Sky Blue
+          "accent": "#818CF8", // Soft Indigo
+          "neutral": "#1F2937", // Dark Grey
+          "base-100": "var(--light-gradient)", // Use gradient for background
+          "base-200": "#F3F4F6", // Light Grey
+          "base-300": "#E5E7EB", // Slightly darker grey
+          "base-content": "#1F2937", // Dark text
         },
       },
       {
-        // আমাদের কাস্টম ডার্ক থিম
         dark: {
           ...require("daisyui/src/theming/themes")["dark"],
-          "primary": "#2DD4BF",   // উজ্জ্বল টিল
-          "secondary": "#7DD3FC", // উজ্জ্বল স্কাই ব্লু
-          "accent": "#A78BFA",    // উজ্জ্বল ইন্ডিগো
-          "neutral": "#D1D5DB",   // হালকা ধূসর
-          "base-100": "#111827",  // নেভি ব্লু ব্যাকগ্রাউন্ড
-          "base-200": "#1F2937",  // একটু হালকা নেভি ব্লু
-          "base-300": "#374151",  // আরও একটু হালকা নেভি ব্লু
-          "base-content": "#E5E7EB", // লাইট গ্রে টেক্সট
+          "primary": "#2DD4BF", // Bright Teal
+          "secondary": "#7DD3FC", // Bright Sky Blue
+          "accent": "#A78BFA", // Bright Indigo
+          "neutral": "#D1D5DB", // Light Grey
+          "base-100": "var(--dark-gradient)", // Use gradient for background
+          "base-200": "#1F2937", // Slightly lighter navy
+          "base-300": "#374151", // Even lighter navy
+          "base-content": "#E5E7EB", // Light grey text
         },
       },
     ],
