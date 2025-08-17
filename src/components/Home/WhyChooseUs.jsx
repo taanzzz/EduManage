@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaChalkboardTeacher, FaLaptopCode, FaUsers, FaCertificate } from 'react-icons/fa';
+import { useTheme } from '../../hooks/useTheme';
 
 const features = [
     {
@@ -26,6 +27,8 @@ const features = [
 ];
 
 const WhyChooseUs = () => {
+    const { isDark, getThemeClasses, gradientText, hoverGlow } = useTheme();
+
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -40,8 +43,18 @@ const WhyChooseUs = () => {
     };
 
     return (
-        <div className="py-20 md:py-28 bg-base-100">
-            <div className="max-w-7xl mx-auto px-4">
+        <div className={`py-20 md:py-28 ${getThemeClasses.pageBackground} relative overflow-hidden`}>
+            {/* Background Effects */}
+            <div className="absolute inset-0 opacity-20">
+                <div className={`absolute top-10 left-10 w-80 h-80 rounded-full blur-3xl animate-pulse ${
+                    isDark ? 'bg-cyan-500/20' : 'bg-green-500/20'
+                }`} />
+                <div className={`absolute bottom-10 right-10 w-96 h-96 rounded-full blur-3xl animate-pulse delay-2000 ${
+                    isDark ? 'bg-teal-500/20' : 'bg-emerald-500/20'
+                }`} />
+            </div>
+
+            <div className="max-w-7xl mx-auto px-4 relative z-10">
                 <motion.div
                     initial={{ opacity: 0, y: -30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -49,12 +62,20 @@ const WhyChooseUs = () => {
                     transition={{ duration: 0.8 }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-4xl md:text-5xl font-extrabold text-base-content">
-                        Why <span className="bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">EduManage</span> Stands Out
-                    </h2>
-                    <p className="text-lg text-base-content/70 mt-4 max-w-3xl mx-auto">
+                    <motion.h2 
+                        className={`text-4xl md:text-5xl font-extrabold ${getThemeClasses.primaryText} mb-4`}
+                        whileHover={{ scale: 1.02 }}
+                    >
+                        Why <span className={`${gradientText} drop-shadow-lg`}>EduManage</span> Stands Out
+                    </motion.h2>
+                    <motion.p 
+                        className={`text-lg ${getThemeClasses.secondaryText} mt-4 max-w-3xl mx-auto leading-relaxed`}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.3, duration: 0.6 }}
+                    >
                         We provide a complete ecosystem for learning that empowers both students and instructors through a combination of cutting-edge technology and expert-led content.
-                    </p>
+                    </motion.p>
                 </motion.div>
 
                 <motion.div 
@@ -68,13 +89,21 @@ const WhyChooseUs = () => {
                         <motion.div 
                             key={index}
                             variants={itemVariants}
-                            className="card bg-base-200 p-8 text-center items-center rounded-2xl shadow-lg border border-transparent hover:border-primary hover:shadow-xl hover:shadow-primary/20 hover:-translate-y-2 transition-all duration-300"
+                            className={`${getThemeClasses.cardBackground} p-8 text-center items-center rounded-3xl ${getThemeClasses.shadow} ${hoverGlow}`}
+                            whileHover={{ scale: 1.03, y: -5 }}
                         >
-                            <div className="text-5xl p-5 rounded-full mb-6 bg-gradient-to-br from-primary to-secondary text-white shadow-md">
+                            <motion.div 
+                                className={`text-5xl p-5 rounded-full mb-6 ${
+                                    isDark 
+                                        ? 'bg-gradient-to-br from-cyan-500 to-teal-500' 
+                                        : 'bg-gradient-to-br from-green-500 to-emerald-500'
+                                } text-white shadow-lg`}
+                                whileHover={{ scale: 1.1, rotate: 5 }}
+                            >
                                 {feature.icon}
-                            </div>
-                            <h3 className="text-xl font-bold text-base-content mb-3">{feature.title}</h3>
-                            <p className="text-base text-base-content/80">{feature.description}</p>
+                            </motion.div>
+                            <h3 className={`text-xl font-bold ${getThemeClasses.primaryText} mb-3`}>{feature.title}</h3>
+                            <p className={getThemeClasses.secondaryText}>{feature.description}</p>
                         </motion.div>
                     ))}
                 </motion.div>

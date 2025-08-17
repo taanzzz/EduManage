@@ -5,6 +5,7 @@ import { FaUsers, FaChalkboardTeacher, FaUserGraduate } from 'react-icons/fa';
 import CountUp from 'react-countup';
 import { useInView } from 'react-intersection-observer';
 import axiosSecure from './../../api/Axios';
+import { useTheme } from './../../hooks/useTheme';
 
 import {
   PieChart,
@@ -15,6 +16,8 @@ import {
 } from 'recharts';
 
 const Stats = () => {
+  const { isDark, getThemeClasses, gradientText, hoverGlow } = useTheme();
+
   const { data: stats, isLoading } = useQuery({
     queryKey: ['site-stats'],
     queryFn: async () => {
@@ -34,17 +37,21 @@ const Stats = () => {
     { name: 'Enrollments', value: stats?.totalEnrollments || 0, icon: <FaUserGraduate /> },
   ];
 
-  const gradients = [
-    { id: 'grad1', colors: ['#38BDF8', '#8B5CF6'] },   
-    { id: 'grad2', colors: ['#EC4899', '#2DD4BF'] },   
-    { id: 'grad3', colors: ['#10B981', '#818CF8'] },   
+  const gradients = isDark ? [
+    { id: 'grad1', colors: ['#06B6D4', '#3B82F6'] },   
+    { id: 'grad2', colors: ['#8B5CF6', '#06B6D4'] },   
+    { id: 'grad3', colors: ['#14B8A6', '#6366F1'] },   
+  ] : [
+    { id: 'grad1', colors: ['#22C55E', '#10B981'] },   
+    { id: 'grad2', colors: ['#84CC16', '#22C55E'] },   
+    { id: 'grad3', colors: ['#10B981', '#A3E635'] },   
   ];
 
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
       const { name, value } = payload[0].payload;
       return (
-        <div className="bg-white p-3 rounded-lg shadow-lg border border-gray-200 text-gray-900 font-semibold">
+        <div className={`${getThemeClasses.cardBackground} p-3 rounded-lg ${getThemeClasses.shadow} border ${isDark ? 'border-slate-700/50' : 'border-gray-200/50'} ${getThemeClasses.primaryText} font-semibold`}>
           <p>{name}</p>
           <p className="text-xl">{value.toLocaleString()}</p>
         </div>
@@ -67,7 +74,7 @@ const Stats = () => {
       <text
         x={x}
         y={y}
-        fill="#374151"
+        fill={isDark ? '#E5E7EB' : '#374151'}
         textAnchor={x > cx ? 'start' : 'end'}
         dominantBaseline="central"
         fontWeight="700"
@@ -82,9 +89,19 @@ const Stats = () => {
   return (
     <section
       ref={ref}
-      className="py-20 md:py-24 bg-gradient-to-b from-base-100 via-base-200 to-base-100 overflow-hidden"
+      className={`py-20 md:py-24 ${getThemeClasses.pageBackground} relative overflow-hidden`}
     >
-      <div className="max-w-7xl mx-auto px-4">
+      {/* Background Effects */}
+      <div className="absolute inset-0 opacity-20">
+        <div className={`absolute top-10 left-10 w-80 h-80 rounded-full blur-3xl animate-pulse ${
+          isDark ? 'bg-cyan-500/20' : 'bg-green-500/20'
+        }`} />
+        <div className={`absolute bottom-10 right-10 w-96 h-96 rounded-full blur-3xl animate-pulse delay-2000 ${
+          isDark ? 'bg-teal-500/20' : 'bg-emerald-500/20'
+        }`} />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
           {/* Left: Gradient Pie Chart */}
@@ -143,10 +160,10 @@ const Stats = () => {
               initial={{ opacity: 0, y: 40 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-4xl lg:text-5xl font-extrabold text-base-content leading-tight"
+              className={`text-4xl lg:text-5xl font-extrabold ${getThemeClasses.primaryText} leading-tight`}
             >
               Join a Global Community of{' '}
-              <span className="block mt-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              <span className={`block mt-2 ${gradientText} drop-shadow-lg`}>
                 Lifelong Learners
               </span>
             </motion.h2>
@@ -158,18 +175,24 @@ const Stats = () => {
                   initial={{ opacity: 0, y: 50 }}
                   animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.8, delay: 0.4 + index * 0.2 }}
-                  className="flex items-center gap-6 bg-white/10 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-base-300"
+                  className={`${getThemeClasses.cardBackground} p-4 rounded-2xl ${getThemeClasses.shadow} ${hoverGlow} flex items-center gap-6`}
+                  whileHover={{ scale: 1.02 }}
                 >
-                  <div className="p-4 rounded-full bg-gradient-to-r from-primary to-secondary text-white text-3xl shadow-md">
+                  <motion.div 
+                    className={`p-4 rounded-full text-white text-3xl shadow-md ${
+                      isDark ? 'bg-gradient-to-r from-cyan-500 to-teal-500' : 'bg-gradient-to-r from-green-500 to-emerald-500'
+                    }`}
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                  >
                     {stat.icon}
-                  </div>
+                  </motion.div>
                   <div>
-                    <div className="text-4xl font-bold text-base-content">
+                    <div className={`text-4xl font-bold ${getThemeClasses.primaryText}`}>
                       {isLoading
                         ? '0'
                         : <CountUp end={stat.value} duration={2.5} startOnMount={inView} />}
                     </div>
-                    <div className="text-lg font-medium text-base-content/70 mt-1">
+                    <div className={`text-lg font-medium ${getThemeClasses.secondaryText} mt-1`}>
                       {stat.name}
                     </div>
                   </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaSearch, FaCreditCard, FaLaptopCode } from 'react-icons/fa';
+import { useTheme } from '../../hooks/useTheme';
 
 const steps = [
     {
@@ -24,6 +25,8 @@ const steps = [
 ];
 
 const HowItWorks = () => {
+    const { isDark, getThemeClasses, gradientText, hoverGlow } = useTheme();
+
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -42,8 +45,18 @@ const HowItWorks = () => {
     };
 
     return (
-        <div className="py-20 md:py-28 bg-base-100">
-            <div className="max-w-7xl mx-auto px-4">
+        <div className={`py-20 md:py-28 ${getThemeClasses.pageBackground} relative overflow-hidden`}>
+            {/* Background Effects */}
+            <div className="absolute inset-0 opacity-20">
+                <div className={`absolute top-10 left-10 w-80 h-80 rounded-full blur-3xl animate-pulse ${
+                    isDark ? 'bg-cyan-500/20' : 'bg-green-500/20'
+                }`} />
+                <div className={`absolute bottom-10 right-10 w-96 h-96 rounded-full blur-3xl animate-pulse delay-2000 ${
+                    isDark ? 'bg-teal-500/20' : 'bg-emerald-500/20'
+                }`} />
+            </div>
+
+            <div className="max-w-7xl mx-auto px-4 relative z-10">
                 <motion.div
                     initial={{ opacity: 0, y: -30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -51,15 +64,24 @@ const HowItWorks = () => {
                     transition={{ duration: 0.8 }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-4xl md:text-5xl font-extrabold text-base-content">
+                    <motion.h2 
+                        className={`text-4xl md:text-5xl font-extrabold ${getThemeClasses.primaryText} mb-4`}
+                        whileHover={{ scale: 1.02 }}
+                        transition={{ duration: 0.3 }}
+                    >
                         Start Your Journey in 
-                        <span className="block mt-2 bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+                        <span className={`block mt-2 ${gradientText} drop-shadow-lg`}>
                             Three Simple Steps
                         </span>
-                    </h2>
-                    <p className="text-lg text-base-content/70 mt-4 max-w-2xl mx-auto">
+                    </motion.h2>
+                    <motion.p 
+                        className={`text-lg ${getThemeClasses.secondaryText} mt-4 max-w-2xl mx-auto leading-relaxed`}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.3, duration: 0.6 }}
+                    >
                         We've simplified the process of learning. Follow these steps to get started.
-                    </p>
+                    </motion.p>
                 </motion.div>
                 
                 <motion.div 
@@ -73,18 +95,26 @@ const HowItWorks = () => {
                         <motion.div 
                             key={index}
                             variants={itemVariants}
-                            className="relative card bg-base-200 p-8 text-center items-center shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2"
+                            className={`relative ${getThemeClasses.cardBackground} p-8 text-center items-center rounded-3xl ${getThemeClasses.shadow} ${hoverGlow}`}
+                            whileHover={{ scale: 1.03, y: -5 }}
                         >
-                            <span className="absolute -top-4 -left-4 text-8xl font-black text-base-content/5 opacity-50 z-0">
+                            <span className={`absolute -top-4 -left-4 text-8xl font-black ${getThemeClasses.mutedText} opacity-20 z-0`}>
                                 0{index + 1}
                             </span>
                             
                             <div className="relative z-10">
-                                <div className={`text-5xl p-5 rounded-full mb-6 inline-block bg-base-100 ${step.color}`}>
+                                <motion.div 
+                                    className={`text-5xl p-5 rounded-full mb-6 inline-block ${
+                                        isDark 
+                                            ? 'bg-gradient-to-r from-cyan-500 to-teal-500' 
+                                            : 'bg-gradient-to-r from-green-500 to-emerald-500'
+                                    } text-white shadow-lg`}
+                                    whileHover={{ scale: 1.1, rotate: 5 }}
+                                >
                                     {step.icon}
-                                </div>
-                                <h3 className="text-2xl font-bold mb-3">{step.title}</h3>
-                                <p className="text-base-content/80">{step.description}</p>
+                                </motion.div>
+                                <h3 className={`text-2xl font-bold mb-3 ${getThemeClasses.primaryText}`}>{step.title}</h3>
+                                <p className={getThemeClasses.secondaryText}>{step.description}</p>
                             </div>
                         </motion.div>
                     ))}
@@ -96,13 +126,14 @@ const HowItWorks = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.7, delay: 0.3 }}
-                    className="mt-20 max-w-3xl mx-auto text-center bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 p-6 rounded-xl border border-base-300 shadow-md"
+                    className={`mt-20 max-w-3xl mx-auto text-center ${getThemeClasses.cardBackground} p-6 rounded-2xl ${getThemeClasses.shadow} ${hoverGlow}`}
+                    whileHover={{ scale: 1.02 }}
                 >
-                    <h4 className="text-xl md:text-2xl font-semibold text-base-content">
+                    <h4 className={`text-xl md:text-2xl font-semibold ${getThemeClasses.primaryText}`}>
                         🎓 Want to Teach Instead?
                     </h4>
-                    <p className="text-base text-base-content/70 mt-2">
-                        Not just students — <span className="text-accent font-medium">you can also apply to become a teacher</span> and share your expertise with the world.
+                    <p className={`text-base ${getThemeClasses.secondaryText} mt-2`}>
+                        Not just students — <span className={`${isDark ? 'text-cyan-400' : 'text-green-600'} font-medium`}>you can also apply to become a teacher</span> and share your expertise with the world.
                     </p>
                 </motion.div>
             </div>
